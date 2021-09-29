@@ -18,7 +18,7 @@ function toys(){
   return fetch('http://localhost:3000/toys')
   .then(res=>res.json())
   .then(toy=> toy.forEach(t => 
-    renderToys(t),
+    renderToys(t)
     ))
 }
 
@@ -47,27 +47,31 @@ function renderToys(toy){
 }
 
 function newToy(){
+  //debugger;
   fetch('http://localhost:3000/toys', {
     method: 'POST',
+    mode: 'cors',
     headers: {
       "Content-Type": "application/json",
         Accept: "application/json"},
     body: JSON.stringify({
-      "name": "document.querySelector('input#toy-name').value",
-      "image": "document.querySelector('input#toy-name').value",
+      "name": document.querySelector('input#toy-name').value,
+      "image": document.querySelector('input#toy-image').value,
       "likes": 0
     })
   })
   .then(res=>res.json())
-  .then(data=>console.log(data))
+  .then(data=>data)
 }
 
 function updateLikes(toy){
     fetch(`http://localhost:3000/toys/${toy.id}`, {
       method: 'PATCH',
+      //mode: 'cors',
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json"
+        //"Access-Control-Allow-Origin": "*"
       },
       body: JSON.stringify(toy)
     })
@@ -75,7 +79,7 @@ function updateLikes(toy){
     .then(toyData => toyData)
 }
 
-document.querySelector('form').addEventListener('submit', newToy )
+document.querySelector('form').addEventListener('submit', newToy)
 document.addEventListener('DOMContentLoaded', toys)
 
 
